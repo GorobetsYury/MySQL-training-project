@@ -1,0 +1,30 @@
+--Создаем представления
+
+Представление результирующей информационной таблицы заказа:
+
+create view `result` (id, name, country, hotel, airline, away, arrive) as
+select 
+	orders.profiles_id ,
+	concat(profiles.name,' ', profiles.surname),
+	orders.countries_code_id,
+	hotels.name,
+	airlines.name,
+	orders.away ,
+	orders.arrive
+from 
+	orders
+join profiles on profiles.id=orders.profiles_id
+join hotels on orders.hotels_id = hotels.id 
+join airlines on orders.airlines_id = airlines.id;
+
+Представление результирующей информационной таблицы по экскурсиям и ценам в каждом отеле:
+
+create view `excursions_in_hotel` (`name`, `country`, `excursion_name`, `price` ) as
+select 
+	hotels.name,
+	hotels.countries_code_id, 
+	excursions.name, 
+	excursions.price
+from 
+	hotels
+join excursions on excursions.hotels_id=hotels.id;

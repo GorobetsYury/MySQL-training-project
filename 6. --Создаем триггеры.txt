@@ -1,0 +1,63 @@
+--Создаем триггеры
+
+--Триггеры на заполнение и обновление поля passrort таблицы profiles.
+Не позволит внести данные пользователя без паспорта, изменить уже имеющуюся запись.
+
+delimiter //
+CREATE TRIGGER NOT_NULL_IN_PASSPORT_INSERT BEFORE INSERT ON profiles
+FOR EACH ROW BEGIN
+  IF NEW.passport IS NULL THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Need to fill in the field "passport"';
+  END IF;
+end//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER NOT_NULL_IN_PASSPORT_UPDATE BEFORE UPDATE ON profiles
+FOR EACH ROW BEGIN
+  IF NEW.passport IS NULL THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'UPDATE to NULL field "passport" is not permitted';
+  END IF;
+end//
+delimiter ;
+
+Проверяем:
+insert into profiles (passport ) values (NULL);
+SQL Error [1644] [45000]: Need to fill in the field "passport"
+
+update profiles set passport = null where id=1;
+SQL Error [1644] [45000]: UPDATE to NULL is not permitted
+
+==========================================================================
+
+--Триггеры, предотвращающие создание слишком больших скидок в новых и существующих полях.
+
+delimiter //
+CREATE TRIGGER UPDATE_DISCOUNTS_PERMISSION BEFORE UPDATE ON discounts
+FOR EACH ROW BEGIN
+  IF (NEW.value > 45)  THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'DISCOUNT can not be more then 45%';
+  END IF;
+end//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER INSERT_DISCOUNTS_PERMISSION BEFORE INSERT ON discounts
+FOR EACH ROW BEGIN
+  IF (NEW.value > 45)  THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'DISCOUNT can not be more then 45%';
+  END IF;
+end//
+delimiter ;
+
+
+Проверяем:
+update discounts set value = 46 where id=8;
+SQL Error [1644] [45000]: DISCOUNT can not be more then 45%
+
+insert into discounts (value ) values (55);
+SQL Error [1644] [45000]: DISCOUNT can not be more then 45%

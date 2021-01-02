@@ -1,0 +1,251 @@
+--Заполняем таблицы данными:
+
+insert into 
+	`airlines` (name) 
+values
+	('S7'),
+	('Aeroflot'),
+	('Pobeda');
+
+insert into 
+	`countries` (code, name, capital, continent) 
+values
+	('TUR', 'Turkey', 'Ankara', 'Europe'),
+	('EGY', 'Egypt', 'Kair', 'Africa'),
+	('ESP', 'Spain', 'Madrid', 'Europe'),
+	('MEX', 'Mexico', 'Mexico', 'South America'),
+	('TAI', 'Thailand', 'Bangkok', 'Asia'),
+	('IND', 'India', 'Deli', 'Asia');
+
+insert into 
+	`discounts` (value) 
+values	(5),(10),(15),(20),(25),(30),(35),(40),(45);
+
+insert into 
+	`regions` (name, countries_code_id) 
+values
+	('Alania','TUR'),
+	('Kemer','TUR'),
+	('Belek','TUR'),
+	('Safaga','EGY'),
+	('Marsa-Alam','EGY'),
+	('Mersa-Matrukh','EGY'),
+	('Catalonia','ESP'),
+	('Canary Islands','ESP'),
+	('Madrid','ESP'),
+	('Cancur','MEX'),
+	('Tulum','MEX'),
+	('Acumal','MEX'),
+	('Pataya','TAI'),
+	('Phuket','TAI'),
+	('Bangkok','TAI'),
+	('South Goa','IND'),
+	('North Goa','IND'),
+	('Deli','IND');
+
+insert into 
+	`hotels` (name, countries_code_id, regions_id, price, stars) 
+values
+	('Merida Stars', 'TUR', '1', '7540','five' ),
+	('Ocean Love', 'TUR', '2', '6025','four'),
+	('Pharaon Stars', 'EGY', '4', '6531','four'),
+	('Alexandria', 'EGY', '6', '8500','five'),
+	('Liberia', 'ESP', '7', '5540','three'),
+	('Royal Palace', 'ESP', '8', '10600','five'),
+	('Liberasiones', 'MEX', '12', '4300','four' ),
+	('Ambre', 'MEX', '11', '3700','three'),
+	('Coloss', 'TAI', '13', '4005','four'),
+	('N-Maria', 'TAI', '14', '3703','three'),
+	('Beauty Beach', 'IND', '16', '3520','three'),
+	('Rest and sleep', 'IND', '17', '2200','two');
+insert into 
+	`hotels` (name, countries_code_id, regions_id, price, stars) 
+values
+	('TEZTOUR', 'TUR', '1', '1','five' );
+
+insert into 
+	`excursions` (hotels_id , name , description , price )
+values ( '13', ('Отказ от экскурсии'), (NULL), (NULL) );
+
+insert into 
+	`excursions` (hotels_id , name , description , price )
+values ( (FLOOR(1 + RAND() * 12)), ('Водопады'), ('Описание экскурсии'), (FLOOR(1000 + RAND() * 5000)) );
+
+insert into 
+	`excursions` (hotels_id , name , description , price )
+values ( (FLOOR(1 + RAND() * 12)), ('Горы'), ('Описание экскурсии'), (FLOOR(1000 + RAND() * 5000)) );
+
+insert into 
+	`excursions` (hotels_id , name , description , price )
+values ( (FLOOR(1 + RAND() * 12)), ('Заповедник'), ('Описание экскурсии'), (FLOOR(1000 + RAND() * 5000)) );
+
+insert into 
+	`excursions` (hotels_id , name , description , price )
+values ( (FLOOR(1 + RAND() * 12)), ('Рыбалка'), ('Описание экскурсии'), (FLOOR(1000 + RAND() * 5000)) );
+
+insert into 
+	`excursions` (hotels_id , name , description , price )
+values ( (FLOOR(1 + RAND() * 12)), ('Аквапарк'), ('Описание экскурсии'), (FLOOR(1000 + RAND() * 5000)) );
+
+insert into 
+	`excursions` (hotels_id , name , description , price )
+values ( (FLOOR(1 + RAND() * 12)), ('Багги'), ('Описание экскурсии'), (FLOOR(1000 + RAND() * 5000)) );
+
+* При рандомной генерации могут повторяться hotels_is и name. 
+Это сделано специально, для того, чтобы учитывать различные варианты 
+одной и той же экскурсии (например рыбалка с берега и рыбалка с яхты в одном и том же отеле. Отличие в цене.)
+
+insert into 
+	`services` (name, price)
+values 
+	('wi-fi', 0),
+	('spa', 0),
+	('tennis', 0),	
+	('golf', 0),
+	('gym', 0);
+
+* Price установил 0, т.к. у аждого отеля свои расценки и регламентировать их невозможно. Решил оставить колонку.
+
+insert into 
+	`profiles` (name, surname, city, birthday , address, phone, passport )
+values 
+	('Yury', 'Gorobets', 'Moscow', '1990-11-18', 'address', '89787456461','66545656654'),
+	('Oksana', 'Riabova', 'Orel', '1960-01-20', 'address', '213123123','66545656654'),
+	('Ivan', 'Ivanov', 'Simferopol', '1980-10-13', 'address', '7537537','753753'),
+	('Elena', 'Dbar', 'Suzdal', '1990-03-05', 'address', '89787456461','4445646456'),
+	('Vitaliy', 'Sergeev', 'Kiev', '1978-11-18', 'address', '46512313456','45646464577'),
+	('Konstantin', 'Rjev', 'Moscow', '1977-02-18', 'address', '77777676868','66545123656654'),
+	('Irina', 'Kovt', 'Yaroslavl', '1953-09-18', 'address', '45645645646','346123123'),
+	('Nadejda', 'Bykova', 'Moscow', '1990-09-23', 'address', '432453453453','65756756757'),
+	('Oleg', 'Ram', 'Moscow', '1999-11-29', 'address', '4353454353','567567576'),
+	('Olga', 'Tarakanova', 'St.-Peterburg', '2001-07-13', 'address', '34534534','66557565656654');
+
+insert into 
+	`airports` (name, countries_code_id , regions_id )
+values 
+	('Turkey1','TUR','1'),
+	('Turkey2','TUR','2'),
+	('India1','IND','17'),
+	('Madrid','ESP','9'),
+	('Barcelona','ESP','7'),
+	('India2','IND','18'),
+	('Egy1','EGY','4'),
+	('Taco','MEX','12'),
+	('Bell','MEX','11'),
+	('Phuket_Airport','TAI','14'),
+	('Egy2','EGY','6');
+
+insert into 
+	`airlines_countries` (airlines_id , countries_code_id)
+values 
+	('1','TUR'),
+	('2','TUR'),
+	('2','IND'),
+	('3','IND'),
+	('1','EGY'),
+	('3','EGY'),
+	('2','EGY'),
+	('2','MEX'),
+	('3','ESP'),
+	('2','ESP'),
+	('1','ESP'),
+	('1','TAI'),
+	('3','TAI');
+
+insert into 
+	`hotels_services` (hotels_id , services_id)
+values 
+	('1','1'),('1','2'),('1','3'),('1','4'),('1','5'),
+	('2','2'),('2','3'),('2','5'),('2','4'),
+	('3','2'),('3','3'),
+	('4','3'),
+	('5','1'),('5','2'),('5','3'),('5','5'),
+	('6','1'),('6','2'),('6','3'),('6','4'),('6','5'),
+	('7','5'),('7','4'),('7','1'),
+	('8','1'),
+	('9','1'),('9','2'),
+	('10','3'),('10','4'),('10','5'),
+	('11','3'),('11','4'),('11','5'),
+	('12','1'),('12','3'),('12','5');
+
+
+insert into `orders` 
+	(profiles_id,
+	countries_code_id,
+	regions_id,
+	hotels_id,
+	airlines_id,
+	transfer,
+	excursions_id_1,
+	excursions_id_2,
+	excursions_id_3,
+	discounts_id,
+	away,
+	arrive)
+values 
+	('1',
+	'TAI',
+	'14',
+	'9',
+	'2',
+	null,
+	'16',
+	'7',
+	'10',
+	'1',
+	'2020-12-31 12:30',
+	'2021-01-10 23:15');
+
+insert into `orders` 
+	(profiles_id,
+	countries_code_id,
+	regions_id,
+	hotels_id,
+	airlines_id,
+	transfer,
+	excursions_id_1,
+	excursions_id_2,
+	excursions_id_3,
+	discounts_id,
+	away,
+	arrive)
+values 
+	('3',
+	'TUR',
+	'2',
+	'2',
+	'2',
+	null,
+	'13',
+	'12',
+	'3',
+	'2',
+	'2021-08-01 07:30',
+	'2021-08-15 10:15');
+
+insert into `orders` 
+	(profiles_id,
+	countries_code_id,
+	regions_id,
+	hotels_id,
+	airlines_id,
+	transfer,
+	excursions_id_1,
+	excursions_id_2,
+	excursions_id_3,
+	discounts_id,
+	away,
+	arrive)
+values 
+	('6',
+	'IND',
+	'16',
+	'11',
+	'3',
+	null,
+	'12',
+	'2',
+	'2',
+	'3',
+	'2020-12-25 06:15',
+	'2021-01-25 15:15');

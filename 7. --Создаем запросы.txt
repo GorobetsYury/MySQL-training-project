@@ -1,0 +1,70 @@
+-- 1) Выборка отелей по местоположению, где есть экскурсия "Багги", отсортированная по цене.
+
+select 
+	hotels.name, hotels.countries_code_id, regions.name, excursions.price 
+from
+	hotels  
+join 
+	excursions on hotels.id = excursions.hotels_id 
+join 
+	regions on  hotels.regions_id = regions.id
+where excursions.name = 'Багги'
+order by excursions.price;
+
+
+-- 2) Выборка с вложенным запросом, которая показывает, сколько авиалиний работает в том или ином направлении.
+
+select 
+	(select countries.name from countries where countries.code = airlines_countries.countries_code_id ) as `COUNTRY`,
+	countries_code_id as `CODE`,
+	count(*) as `AIRLINES NUMBERS`
+from 
+	airlines_countries
+group by countries_code_id 
+order by `AIRLINES NUMBERS`;
+
+-- 3) Выборка с использованием оконной функции, которая показывает всех клиентов из Москвы, отсортированные по 
+дате рождения:
+
+select 
+	profiles.name,
+	profiles.birthday,
+	count(profiles.id) over(partition by profiles.city order by profiles.birthday) as MOSCOW_CLIENTS
+from 
+	profiles
+where city='Moscow';
+
+
+-- 4) Выборка показывает общее количество клиентов из каждого города
+
+select distinct 
+	profiles.city,
+	count(profiles.id) over(partition by profiles.city) as TOTAL_CLIENTS
+from 
+	profiles;
+
+
+-- 5) Выборка показывает сколько процентов клиентов турагенства из Москвы
+
+select 
+	profiles.city,
+	count(profiles.id) / (select count(*) from profiles) * 100 as '%%'
+from 
+	profiles
+where city='Moscow';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

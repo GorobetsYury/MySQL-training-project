@@ -1,0 +1,94 @@
+--Создаем внешние ключи:
+
+ALTER TABLE `regions`
+  ADD CONSTRAINT regions_countries_code_id_fk 
+    FOREIGN KEY (countries_code_id) REFERENCES countries(code)
+      ON DELETE cascade
+      ON UPDATE cascade;
+ALTER TABLE `orders`
+  ADD CONSTRAINT orders_profiles_id_fk
+    FOREIGN KEY (profiles_id) REFERENCES profiles(id)
+      ON DELETE cascade
+      ON UPDATE cascade,         
+  ADD CONSTRAINT orders_countries_code_id_fk
+    FOREIGN KEY (countries_code_id) REFERENCES countries(code)
+      ON DELETE cascade
+      ON UPDATE cascade,     
+  ADD CONSTRAINT orders_regions_id_fk 
+    FOREIGN KEY (regions_id) REFERENCES regions(id)
+      ON DELETE cascade
+      ON UPDATE cascade,
+  ADD CONSTRAINT orders_hotels_id_fk 
+    FOREIGN KEY (hotels_id) REFERENCES hotels(id)
+      ON DELETE cascade
+      ON UPDATE cascade,
+  ADD CONSTRAINT orders_airlines_id_fk
+    FOREIGN KEY (airlines_id) REFERENCES airlines(id)
+      ON DELETE cascade
+      ON UPDATE cascade,
+  ADD CONSTRAINT orders_excursions_id_1_fk
+    FOREIGN KEY (excursions_id_1) REFERENCES excursions(id)
+      ON DELETE cascade
+      ON UPDATE cascade,
+  ADD CONSTRAINT orders_excursions_id_2_fk
+    FOREIGN KEY (excursions_id_2) REFERENCES excursions(id)
+      ON DELETE cascade
+      ON UPDATE cascade,
+  ADD CONSTRAINT orders_excursions_id_3_fk
+    FOREIGN KEY (excursions_id_3) REFERENCES excursions(id)
+      ON DELETE cascade
+      ON UPDATE cascade,
+  ADD CONSTRAINT orders_discounts_id_fk 
+    FOREIGN KEY (discounts_id) REFERENCES discounts(id)
+      ON DELETE cascade
+      ON UPDATE cascade;
+ALTER TABLE `hotels_services`
+  ADD CONSTRAINT hotels_services_hotels_id_fk
+    FOREIGN KEY (hotels_id) REFERENCES hotels(id)
+      ON DELETE cascade
+      ON UPDATE cascade,         
+  ADD CONSTRAINT hotels_services_services_id_fk
+    FOREIGN KEY (services_id) REFERENCES services(id)
+      ON DELETE cascade
+      ON UPDATE cascade;
+ALTER TABLE `hotels`
+  ADD CONSTRAINT hotels_countries_code_id_fk
+    FOREIGN KEY (countries_code_id) REFERENCES countries(code)
+      ON DELETE cascade
+      ON UPDATE cascade,
+  ADD CONSTRAINT hotels_regions_id_fk
+    FOREIGN KEY (regions_id) REFERENCES regions(id)
+      ON DELETE cascade
+      ON UPDATE cascade;
+ALTER TABLE excursions
+  ADD CONSTRAINT excursions_hotels_id_fk
+    FOREIGN KEY (hotels_id) REFERENCES hotels(id)
+      ON DELETE cascade
+      ON UPDATE cascade;
+
+ALTER TABLE `airports`
+  ADD CONSTRAINT airports_countries_code_id_fk
+    FOREIGN KEY (countries_code_id) REFERENCES countries(code)
+      ON DELETE cascade
+      ON UPDATE cascade, 
+  ADD CONSTRAINT airports_regions_id_fk
+    FOREIGN KEY (regions_id) REFERENCES regions(id)
+      ON DELETE cascade
+      ON UPDATE cascade;
+
+DROP TABLE `airlines_countries`;
+CREATE TABLE IF NOT EXISTS `airlines_countries` (
+	`airlines_id` INT UNSIGNED NOT NULL,
+	`countries_code_id` char(3),
+	PRIMARY KEY (`airlines_id`, `countries_code_id`)
+);
+
+ALTER TABLE `airlines_countries`
+  ADD CONSTRAINT airlines_countries_airlines_id_fk
+    FOREIGN KEY (airlines_id) REFERENCES airlines(id)
+      ON DELETE cascade
+      ON UPDATE cascade, 
+  ADD CONSTRAINT airlines_countries_countries_code_id_fk
+    FOREIGN KEY (countries_code_id) REFERENCES countries(code)
+      ON DELETE cascade
+      ON UPDATE cascade;

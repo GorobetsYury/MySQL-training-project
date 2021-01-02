@@ -1,0 +1,96 @@
+--Созданием базу данных
+
+CREATE TABLE IF NOT EXISTS `profiles` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`name` VARCHAR(100),
+	`surname` VARCHAR(100),
+	`city` VARCHAR(100),
+	`birthday` DATE,
+	`address` VARCHAR(255),
+	`phone` VARCHAR(100),
+	`passport` VARCHAR(255)
+); COMMENT = 'Данные профиля клиентов турагенства';
+
+CREATE TABLE IF NOT EXISTS `countries` (
+	`code` char(3) NOT NULL PRIMARY KEY,
+	`name` VARCHAR(255),
+	`capital` VARCHAR(255),
+	`continent` enum('Asia','Europe','North America',
+	'Africa','Oceania','South America')
+); COMMENT = 'Данные по странам';
+
+CREATE TABLE IF NOT EXISTS `regions` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`name` VARCHAR(255),
+	`countries_code_id` char(3)
+);  COMMENT = 'Данные по регионам в странах';
+
+CREATE TABLE IF NOT EXISTS `hotels` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`name` VARCHAR(255),
+	`countries_code_id` char(3),
+	`regions_id` INT UNSIGNED NOT NULL,
+	`price` DECIMAL(8,2),
+	`stars` enum('one','two','three','four','five')
+); COMMENT = 'Данные по отелям';
+
+CREATE TABLE IF NOT EXISTS `airlines` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`name` VARCHAR(255)
+); COMMENT = 'Данные по авиакомпаниям';
+
+CREATE TABLE IF NOT EXISTS `airports` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`name` VARCHAR(255),
+	`countries_code_id` char(3),
+	`regions_id` INT UNSIGNED NOT NULL
+); COMMENT = 'Данные по аэропортам';
+
+CREATE TABLE IF NOT EXISTS `services` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`name` VARCHAR(255),
+	`price` DECIMAL(8,2)
+); COMMENT = 'Данные по сервисам в отеле';
+
+CREATE TABLE IF NOT EXISTS `excursions` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`hotels_id` INT UNSIGNED NOT NULL,
+	`name` VARCHAR(255),
+	`description` TEXT,
+	`price` DECIMAL(8,2)
+); COMMENT = 'Данные по экскурсиям в отеле';
+
+CREATE TABLE IF NOT EXISTS `discounts` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`value` TINYINT
+); COMMENT = 'Данные по скидке';
+
+CREATE TABLE IF NOT EXISTS `hotels_services` (
+	`hotels_id` INT UNSIGNED NOT NULL,
+	`services_id` INT UNSIGNED NOT NULL,
+	PRIMARY KEY (`hotels_id`, `services_id`)
+); COMMENT = 'Данные по отелям и сервисам в них';
+
+CREATE TABLE IF NOT EXISTS `airlines_countries` (
+	`airlines_id` INT UNSIGNED NOT NULL,
+	`countries_code_id` char(3),
+	PRIMARY KEY (`airlines_id`, `countries_code_id`)
+); COMMENT = 'Данные по странам и авиалиниям на их территории';
+
+CREATE TABLE IF NOT EXISTS `orders` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`profiles_id` INT UNSIGNED NOT NULL,
+	`countries_code_id` char(3),
+	`regions_id` INT UNSIGNED NOT NULL,
+	`hotels_id` INT UNSIGNED NOT NULL,
+	`airlines_id` INT UNSIGNED NOT NULL,
+	`transfer` BOOLEAN,
+	`excursions_id_1` INT UNSIGNED NOT NULL,
+	`excursions_id_2` INT UNSIGNED NOT NULL,
+	`excursions_id_3` INT UNSIGNED NOT NULL,
+	`discounts_id` INT UNSIGNED NOT NULL,
+	`away` DATETIME,
+	`arrive` DATETIME,
+	`created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP	
+); COMMENT = 'Данные по заказу конкретного клиента';
